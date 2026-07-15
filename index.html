@@ -2,9 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Your Message</title>
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+<title>Secret Message</title>
+
 <style>
 
 body {
@@ -20,6 +22,9 @@ body {
 .container {
   text-align: center;
 }
+
+
+/* ENVELOPE */
 
 .envelope {
   width: 320px;
@@ -37,6 +42,9 @@ body {
   transform: translateY(-5px);
 }
 
+
+/* FLAP */
+
 .flap {
   position: absolute;
   width: 0;
@@ -51,6 +59,9 @@ body {
   z-index: 2;
 }
 
+
+/* MESSAGE PAPER */
+
 .paper {
   position: absolute;
   background: #fffdf8;
@@ -58,7 +69,9 @@ body {
   min-height: 145px;
   left: 30px;
   top: 45px;
+
   border-radius: 12px;
+
   padding: 22px;
   box-sizing: border-box;
 
@@ -77,6 +90,9 @@ body {
   justify-content: center;
 }
 
+
+/* OPEN EFFECT */
+
 .open .flap {
   transform: rotateX(180deg);
 }
@@ -86,6 +102,9 @@ body {
   transform: translateY(-25px);
 }
 
+
+/* TEXT UNDER ENVELOPE */
+
 .hint {
   margin-top: 28px;
   color: #9b8754;
@@ -94,41 +113,10 @@ body {
   letter-spacing: 0.5px;
 }
 
-</style>
-.card {
-  background: yellow;
-  width: 80%;
-  max-width: 500px;
-  padding: 40px 30px;
-  border-radius: 25px;
-  text-align: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-  animation: fadeIn 0.8s ease;
-}
 
-.message {
-  font-size: 35px;
-  line-height: 1.4;
-  color: #333;
-}
+/* CONFETTI */
 
-.small {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #888;
-  font-family: Arial, sans-serif;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}.confetti {
+.confetti {
   position: fixed;
   width: 10px;
   height: 10px;
@@ -139,48 +127,161 @@ body {
   animation: confettiFall 2.5s ease-out forwards;
 }
 
+
 @keyframes confettiFall {
+
   0% {
     opacity: 1;
     transform: translate(0,0) rotate(0deg);
   }
+
   100% {
     opacity: 0;
     transform: translate(var(--x), var(--y)) rotate(720deg);
   }
+
 }
+
 </style>
 
 </head>
 
+
 <body>
 
-<div class="card">
-  <div class="message" id="message"></div>
-  <div class="small"></div>
+
+<div class="container">
+
+  <div class="envelope" onclick="openEnvelope()">
+
+    <div class="flap"></div>
+
+    <div class="paper" id="message"></div>
+
+  </div>
+
+
+  <div class="hint">
+    Tocca la busta ✉️
+  </div>
+
 </div>
+
 
 
 <script>
 
+
 const messages = [
+
   "Ma tutt'apposto?",
+
   "Godo tantissimo",
+
   "Adesso ascoltiamo Gigi?",
+
   "TUTTA VITA",
+
   "FOLLIA",
+
   "TOP AMOOOO",
+
   "Mannacc a tutt cos",
+
   "POLLO",
+
   "Ciao raggio di sole!",
+
   "FRASE RARA: T sfong o cranij!"
+
 ];
 
 
-document.getElementById("message").textContent =
-messages[Math.floor(Math.random() * messages.length)];
+
+function openEnvelope() {
+
+  const envelope = document.querySelector(".envelope");
+
+  const message = document.getElementById("message");
+
+
+  if (!envelope.classList.contains("open")) {
+
+
+    message.textContent =
+      messages[Math.floor(Math.random() * messages.length)];
+
+
+    envelope.classList.add("open");
+
+
+    createConfetti();
+
+
+  }
+
+}
+
+
+
+
+function createConfetti() {
+
+
+  const colors = [
+
+    "#f9e7a8",
+    "#f6c1cc",
+    "#b8e0d2",
+    "#cdb4db",
+    "#ffd6a5"
+
+  ];
+
+
+  for (let i = 0; i < 40; i++) {
+
+
+    const piece = document.createElement("div");
+
+
+    piece.className = "confetti";
+
+
+    piece.style.background =
+      colors[Math.floor(Math.random() * colors.length)];
+
+
+    piece.style.setProperty(
+      "--x",
+      `${(Math.random() - 0.5) * 500}px`
+    );
+
+
+    piece.style.setProperty(
+      "--y",
+      `${(Math.random() - 0.5) * 500}px`
+    );
+
+
+    document.body.appendChild(piece);
+
+
+
+    setTimeout(() => {
+
+      piece.remove();
+
+    }, 2500);
+
+
+  }
+
+}
+
 
 </script>
+
 
 </body>
 </html>
